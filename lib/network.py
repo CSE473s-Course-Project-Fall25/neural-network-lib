@@ -88,7 +88,7 @@ class Sequential:
             dout = layer.backward(dout)
         return dout
     
-    def train_step(self, X, y,loss_fn: MSELoss, optimizer: SGDOptimizer):
+    def train_step(self, X, y, loss_fn: MSELoss, opt: SGDOptimizer):
         """
         @brief Perform a single training step: forward pass, loss computation, backward pass, and parameter update.
         
@@ -98,7 +98,7 @@ class Sequential:
             Input data.
         y : np.ndarray
             True target values.
-        optimizer : Optimizer
+        opt : SGDOptimizer
             Optimizer to update the network parameters.
         """
         # Forward pass
@@ -111,7 +111,28 @@ class Sequential:
         # Backpropagation
         self.backward(dout)
 
-        # Update weights
-        optimizer.step(self.layers)
+        opt.step(self.layers)
 
         return loss
+    
+    def fit(self, X, y, loss_fn = MSELoss(), opt = SGDOptimizer(learning_rate=1.0), epochs=1000):
+        """
+        @brief Train the network on the provided data.
+        
+        Parameters
+        ----------
+        X : np.ndarray
+            Input data.
+        y : np.ndarray
+            True target values.
+        epochs : int, optional
+            Number of training epochs (default is 1000).
+        loss_fn : Loss (Optional)
+            Loss function to use for training.
+        opt : Optimizer (Optional)
+            Optimizer to update the network parameters.
+        """
+        for epoch in range(epochs):
+            loss = self.train_step(X, y, loss_fn, opt)
+            if epoch % 100 == 0:
+                print(f'Epoch {epoch}, Loss: {loss}')

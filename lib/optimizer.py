@@ -19,7 +19,7 @@ class SGDOptimizer:
         Parameters
         ----------
         learning_rate : float, optional
-            Learning rate for the optimizer (default is 0.01).
+            Learning rate for the optimizer (default is 1.0).
         """
         self.learning_rate = learning_rate
 
@@ -34,5 +34,5 @@ class SGDOptimizer:
         """
         for layer in layers:
             if layer.trainable:
-                for i in range(len(layer.params)):
-                    layer.params[i] -= self.learning_rate * layer.grads[i]
+                layer.W -= self.learning_rate * layer.dW
+                layer.b -= self.learning_rate * layer.db

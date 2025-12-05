@@ -15,7 +15,7 @@ class MSELoss:
     Methods
     -------
     __call__(y_true, y_pred)
-        Compute the MSE loss.
+        Make the MSELoss instance callable.
     backward()
         Compute the gradient of the loss with respect to predictions.
     """

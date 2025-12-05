@@ -9,10 +9,6 @@ class Layer:
     ----------
     trainable : bool
         Indicates if the layer has trainable parameters.
-    params : list
-        List of layer parameters.
-    grads : list
-        List of gradients corresponding to the parameters.
 
     Methods
     -------
@@ -20,10 +16,6 @@ class Layer:
         Perform the forward pass.
     backward(dout)
         Perform the backward pass.
-    get_params()
-        Retrieve the layer parameters.
-    get_grads()
-        Retrieve the gradients of the layer parameters.
     """
     def __init__(self):
         """
@@ -31,32 +23,12 @@ class Layer:
         @brief By default, layers are non-trainable with empty params and grads lists.
         """
         self.trainable = False
-        self.params = []
-        self.grads = []
     
     def forward(self, X):
         raise NotImplementedError
     
     def backward(self, dout): 
         raise NotImplementedError
-    
-    def get_params(self):
-        """
-        Returns
-        -------
-        list [W, b]
-            List of layer parameters.
-        """
-        return self.params
-    
-    def get_grads(self):
-        """
-        Returns
-        -------
-        list [dW, db]
-            List of gradients corresponding to the layer parameters.
-        """
-        return self.grads
 
 
 class Dense(Layer):
@@ -85,7 +57,7 @@ class Dense(Layer):
     backward(dout)
         Perform the backward pass.
     """
-    def __init__(self, in_features, out_features):
+    def __init__(self, in_features, out_features, scale=0.01):
         """
         @brief Initialize the Dense layer with random weights and zero biases.
         @brief All weights are initialized from a normal distribution with mean 0 and std 1.0.
@@ -96,6 +68,8 @@ class Dense(Layer):
             Number of input features.
         out_features : int
             Number of output features (Neurons).
+        scale : float, optional
+            Scaling factor for weight initialization, by default 0.01.
 
         Returns
         -------
@@ -105,10 +79,11 @@ class Dense(Layer):
 
         self.trainable = True
 
-        self.W = np.random.randn(in_features, out_features) * 1.0     # Standard normal initialization
+        self.W = np.random.randn(in_features, out_features) * scale     # Standard normal initialization scaled to small values
         self.b = np.zeros((1, out_features))
-
-        self.params = [self.W, self.b]
+        
+        self.dW = np.zeros_like(self.W)
+        self.db = np.zeros_like(self.b)
 
         # Cached vars for backward
         self.X = None
@@ -148,10 +123,8 @@ class Dense(Layer):
         np.ndarray
             Gradient with respect to inputs of shape (N, in_features).
         """
-        dW = self.X.T @ dout
-        db = np.sum(dout, axis=0, keepdims=True)
+        self.dW = self.X.T @ dout
+        self.db = np.sum(dout, axis=0, keepdims=True)
         dX = dout @ self.W.T
-
-        self.grads = [dW, db]
         
         return dX
