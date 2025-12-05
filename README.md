@@ -36,7 +36,6 @@ numpy
 matplotlib
 tensorflow
 keras
-pandas
 scikit-learn
 ```
 
@@ -76,4 +75,4 @@ These layers are typically non-trainable and apply their respective functions el
 
 | Class | Description |
 | :--- | :--- |
-| `SGDOptimizer` | **Stochastic Gradient Descent (SGD)** optimizer. It updates the trainable parameters of each layer using the rule: $\text{layer.W} -= \text{learning_rate} \times \text{layer.dW}$. |
+| `SGDOptimizer` | **Stochastic Gradient Descent (SGD)** optimizer. It updates the trainable parameters of each layer using the rule: $\text{layer.W} -= \text{learningrate} \times \text{layer.dW}$. |
