@@ -70,7 +70,7 @@ class Sequential:
             X = layer.forward(X)
         return X
 
-    def backward(self, dout):
+    def backward(self, y_grad):
         """
         @brief Perform a backward pass through the network.
 
@@ -84,6 +84,7 @@ class Sequential:
         np.ndarray
             Gradient of the loss with respect to the network input.
         """
+        dout = y_grad
         for layer in reversed(self.layers):
             dout = layer.backward(dout)
         return dout

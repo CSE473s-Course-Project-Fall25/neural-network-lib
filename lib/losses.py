@@ -41,7 +41,7 @@ class MSELoss:
         """
         self.y_true = y_true
         self.y_pred = y_pred
-        return np.mean((y_true - y_pred) ** 2)
+        return (1 / 2) * np.mean((y_true - y_pred) ** 2)
 
     def backward(self):
         """
@@ -53,4 +53,4 @@ class MSELoss:
             Gradient of the loss with respect to predictions.
         """
         N = self.y_true.shape[0]
-        return 2 * (self.y_pred - self.y_true) / N
+        return (self.y_pred - self.y_true) / N

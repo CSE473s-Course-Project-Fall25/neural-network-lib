@@ -80,7 +80,7 @@ class Dense(Layer):
         self.trainable = True
 
         self.W = np.random.randn(in_features, out_features) * scale     # Standard normal initialization scaled to small values
-        self.b = np.zeros((1, out_features))
+        self.b = np.random.randn(1, out_features) * scale
         
         self.dW = np.zeros_like(self.W)
         self.db = np.zeros_like(self.b)
