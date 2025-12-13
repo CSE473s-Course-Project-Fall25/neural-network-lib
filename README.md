@@ -9,16 +9,18 @@ The core library components are located within the `lib/` directory.
 ```
 neural-network-lib/
 ├── lib/
-│   ├── __init__.py         # Exports main components
-│   ├── activations.py      # Activation functions (ReLU, Sigmoid, Tanh, Softmax)
-│   ├── layers.py           # Base Layer and Dense (Fully Connected) layer
-│   ├── losses.py           # Loss functions (MSELoss)
-│   ├── network.py          # Sequential model class and training logic
-│   └── optimizer.py        # Optimizers (SGDOptimizer)
+│   ├── __init__.py                     # Exports main components
+│   ├── activations.py                  # Activation functions (ReLU, Sigmoid, Tanh, Softmax)
+│   ├── layers.py                       # Base Layer and Dense (Fully Connected) layer
+│   ├── losses.py                       # Loss functions (MSELoss)
+│   ├── network.py                      # Sequential model class and training logic
+│   └── optimizer.py                    # Optimizers (SGDOptimizer)
 ├── notebooks/
-│   └── project_demo.ipynb  # Example usage ([XOR] problem)
-├── README.md               # This file
-└── requirements.txt        # Required packages
+│   └── project_demo.ipynb              # Example usage ([XOR] problem)
+├── report/
+│   └── CI-Project-Report-Team-18.pdf   # Project report
+├── README.md                           # This file
+└── requirements.txt                    # Required packages
 ```
 
 ## Installation
@@ -76,3 +78,9 @@ These layers are typically non-trainable and apply their respective functions el
 | Class | Description |
 | :--- | :--- |
 | `SGDOptimizer` | **Stochastic Gradient Descent (SGD)** optimizer. It updates the trainable parameters of each layer using the rule: $\text{layer.W} = \text{layer.W} - (\text{learningrate} \times \text{layer.dW})$. |
+
+## Team-members
+- Amr Khaled
+- Mostafa Samy
+- Mohamed Tarek
+- Omar Mohamed
