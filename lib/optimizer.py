@@ -34,5 +34,5 @@ class SGDOptimizer:
         """
         for layer in layers:
             if layer.trainable:
-                layer.W -= self.learning_rate * layer.dW
-                layer.b -= self.learning_rate * layer.db
+                for i in range(len(layer.params)):
+                    layer.params[i] -= self.learning_rate * layer.grads[i]

@@ -23,12 +23,36 @@ class Layer:
         @brief By default, layers are non-trainable with empty params and grads lists.
         """
         self.trainable = False
+        self.params = []
+        self.grads = []
     
     def forward(self, X):
         raise NotImplementedError
     
     def backward(self, dout): 
         raise NotImplementedError
+    
+    def get_params(self):
+        """
+        @brief Get the layer's parameters.
+
+        Returns
+        -------
+        list
+            List of parameters (weights, biases, etc.).
+        """
+        return self.params
+    
+    def get_grads(self):
+        """
+        @brief Get the layer's gradients.
+
+        Returns
+        -------
+        list
+            List of gradients corresponding to the parameters.
+        """
+        return self.grads
 
 
 class Dense(Layer):
@@ -79,11 +103,15 @@ class Dense(Layer):
 
         self.trainable = True
 
-        self.W = np.random.randn(in_features, out_features) * scale     # Standard normal initialization scaled to small values
-        self.b = np.random.randn(1, out_features) * scale
+        W = np.random.randn(in_features, out_features) * scale     # Standard normal initialization scaled to small values
+        b = np.random.randn(1, out_features) * scale
+
+        self.params = [W, b]
         
-        self.dW = np.zeros_like(self.W)
-        self.db = np.zeros_like(self.b)
+        dW = np.zeros_like(W)
+        db = np.zeros_like(b)
+
+        self.grads = [dW, db]
 
         # Cached vars for backward
         self.X = None
@@ -105,7 +133,7 @@ class Dense(Layer):
             Output data of shape (N, out_features).
         """
         self.X = X
-        self.Z = X @ self.W + self.b
+        self.Z = X @ self.params[0] + self.params[1]
         return self.Z
 
     def backward(self, dout):
@@ -123,8 +151,10 @@ class Dense(Layer):
         np.ndarray
             Gradient with respect to inputs of shape (N, in_features).
         """
-        self.dW = self.X.T @ dout
-        self.db = np.sum(dout, axis=0, keepdims=True)
-        dX = dout @ self.W.T
+        dW = self.X.T @ dout
+        db = np.sum(dout, axis=0, keepdims=True)
+        dX = dout @ self.params[0].T
+
+        self.grads = [dW, db]
         
         return dX

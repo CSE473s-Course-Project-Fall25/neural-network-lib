@@ -82,7 +82,13 @@ class Sigmoid(Layer):
         np.ndarray
             Output data after applying sigmoid.
         """
-        self.Y = 1 / (1 + np.exp(-X))
+        self.Y = np.zeros_like(X)
+        pos_mask = (X >= 0)
+        neg_mask = ~pos_mask
+        z_pos = np.exp(-X[pos_mask])
+        self.Y[pos_mask] = 1 / (1 + z_pos)
+        z_neg = np.exp(X[neg_mask])
+        self.Y[neg_mask] = z_neg / (1 + z_neg)
         return self.Y
     
     def backward(self, dout):
