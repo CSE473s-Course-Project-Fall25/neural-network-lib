@@ -1,6 +1,5 @@
 import numpy as np
 
-
 class Layer:
     """
     @brief Base class for layers in a neural network.
