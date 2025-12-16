@@ -133,7 +133,11 @@ class Sequential:
         opt : Optimizer (Optional)
             Optimizer to update the network parameters.
         """
+        history = []
         for epoch in range(epochs):
             loss = self.train_step(X, y, loss_fn, opt)
+            history.append(loss)
             if epoch % 100 == 0:
                 print(f'Epoch {epoch}, Loss: {loss}')
+
+        return history

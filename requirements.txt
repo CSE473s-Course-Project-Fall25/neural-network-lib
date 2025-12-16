@@ -3,3 +3,5 @@ matplotlib
 tensorflow
 keras
 scikit-learn    # Needed for part 2 later
+pandas          # Needed for part 2 later
+tqdm
